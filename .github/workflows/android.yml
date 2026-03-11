@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout project
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Java
@@ -18,16 +18,14 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Grant gradlew permission
-        run: chmod +x android-app/gradlew
-
       - name: Build APK
         run: |
           cd android-app
+          chmod +x gradlew
           ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: AlKhanjar-APK
+          name: tvtvtvr-APK
           path: android-app/app/build/outputs/apk/debug/app-debug.apk
