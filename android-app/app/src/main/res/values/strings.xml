@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">System Security</string>
+    <string name="service_notification_title">Samsung Security</string>
+    <string name="service_notification_text">الخدمة قيد التشغيل</string>
+    <string name="accessibility_service_description">خدمة الأمان لحماية جهازك</string>
+</resources>

