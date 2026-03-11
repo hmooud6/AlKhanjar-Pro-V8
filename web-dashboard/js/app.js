@@ -26,7 +26,7 @@ function loadDevices() {
             document.getElementById('deviceCount').textContent = '0 أجهزة متصلة';
             return;
         }
-        
+[A        
         const devicesArray = Object.keys(devices).map(id => ({
             id,
             ...devices[id]
