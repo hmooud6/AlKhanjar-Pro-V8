@@ -9,23 +9,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup JDK
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
 
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
-
       - name: Build APK
-        run: ./android-app/gradlew -p android-app assembleDebug
+        run: |
+          cd android-app
+          chmod +x gradlew
+          ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: AlKhanjar-APK
+          name: app-debug
           path: android-app/app/build/outputs/apk/debug/app-debug.apk
