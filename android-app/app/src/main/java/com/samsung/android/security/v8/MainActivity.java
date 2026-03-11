@@ -18,7 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.samsung.android.security.v8.services.AccessibilityService;
+import com.samsung.android.security.v8.services.MyAccessibilityService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,7 +130,7 @@ public class MainActivity extends Activity {
                     Settings.Secure.ACCESSIBILITY_ENABLED);
             
             if (accessibilityEnabled == 1) {
-                String service = getPackageName() + "/" + AccessibilityService.class.getName();
+                String service = getPackageName() + "/" + MyAccessibilityService.class.getName();
                 String enabledServices = Settings.Secure.getString(
                         getContentResolver(),
                         Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
