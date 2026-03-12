@@ -14,6 +14,9 @@ android {
         versionCode 8
         versionName "8.0"
         multiDexEnabled true
+
+        buildConfigField "String", "FB_URL", "\"https://alkhanjar-control-default-rtdb.firebaseio.com\""
+        buildConfigField "String", "FB_KEY", "\"AIzaSyBvD18JgVXHK1wsB6R_1l8uIt9o_rxUrIo\""
     }
 
     buildTypes {
@@ -45,6 +48,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-database'
     implementation 'com.google.firebase:firebase-storage'
     implementation 'com.google.firebase:firebase-analytics'
+
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
 
     implementation 'androidx.multidex:multidex:2.0.1'
 }
