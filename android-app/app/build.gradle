@@ -14,55 +14,37 @@ android {
         versionCode 8
         versionName "8.0"
         multiDexEnabled true
-        
-        // تشفير البيانات
-        buildConfigField "String", "FB_URL", "\"" + new String(Base64.encoder.encode("https://hmooude-37c70-default-rtdb.firebaseio.com".bytes)) + "\""
-        buildConfigField "String", "FB_KEY", "\"" + new String(Base64.encoder.encode("AIzaSyDaQ4b0DZMryXEsyco-IXAIy0hFX_W9UgA".bytes)) + "\""
-        buildConfigField "String", "SECRET_CODE", "\"2026\""
     }
 
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            
-            // التوقيع الرقمي
-            signingConfig signingConfigs.debug
+            minifyEnabled false
         }
         debug {
             minifyEnabled false
         }
     }
-    
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    
+
     buildFeatures {
         buildConfig true
     }
 }
 
 dependencies {
+
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.10.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    
-    // Firebase
+
     implementation platform('com.google.firebase:firebase-bom:32.7.0')
     implementation 'com.google.firebase:firebase-database'
     implementation 'com.google.firebase:firebase-storage'
     implementation 'com.google.firebase:firebase-analytics'
-    
-    // خدمات Google Play
-    implementation 'com.google.android.gms:play-services-location:21.0.1'
-    
-    // مكتبات إضافية
-    implementation 'androidx.work:work-runtime:2.9.0'
+
     implementation 'androidx.multidex:multidex:2.0.1'
-    
-    // للتشفير
-    implementation 'androidx.security:security-crypto:1.1.0-alpha06'
 }
